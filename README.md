@@ -1,7 +1,7 @@
 # Setlister
 
-TODO:
+*TODO:*
 
-Connect to setlist.fm API
-Connect to Musicbrainz API
-Connect to Spotify API
+- Connect to setlist.fm API
+- Connect to Musicbrainz API
+- Connect to Spotify API
