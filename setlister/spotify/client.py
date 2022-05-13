@@ -1,44 +1,13 @@
-import time
-from datetime import datetime
+sfrom datetime import datetime
 
-import requests
 import spotipy
-from requests.structures import CaseInsensitiveDict
+from base.client import BaseAPI
+from base.formatting import compare_strings
+from setlister.settings import ApiKeys, ApiURLS
 from spotipy.oauth2 import SpotifyOAuth
-
-from .formatting import compare_strings
-from .settings import ApiKeys, ApiURLS
 
 apikeys = ApiKeys()
 apiurls = ApiURLS()
-
-
-class BaseAPI:
-    HEADERS = CaseInsensitiveDict()
-
-    def __init__(self):
-        self.HEADERS["Accept"] = "application/json"
-        self.HEADERS["Content-Type"] = "application/json"
-
-    def get(self, *args, **kwargs):
-        return requests.get(*args, **kwargs).json()
-
-    def post(self, *args, **kwargs):
-        return requests.post(*args, **kwargs).json()
-
-
-class SetlistAPI(BaseAPI):
-    def __init__(self):
-        super(SetlistAPI, self).__init__()
-        self.HEADERS["x-api-key"] = apikeys.SETLIST_FM
-
-    def get(self, path, *args, **kwargs):
-        url = apiurls.SETLIST_FM
-        if path[0] != "/":
-            url += "/"
-        url += path
-        time.sleep(0.5)
-        return super().get(url, headers=self.HEADERS, *args, **kwargs)
 
 
 class SpotifyAPI(BaseAPI):
@@ -91,16 +60,3 @@ class SpotifyAPI(BaseAPI):
             except IndexError:
                 print("failed")
         return uris
-
-
-class MusicbrainzAPI(BaseAPI):
-    def __init__(self):
-        super(MusicbrainzAPI, self).__init__()
-        self.HEADERS["User-Agent"] = apikeys.MUSICBRAINZ
-
-    def get(self, path, *args, **kwargs):
-        url = apiurls.MUSICBRAINZ
-        if path[0] != "/":
-            url += "/"
-        url += path
-        return super().get(url, headers=self.HEADERS, *args, **kwargs)
