@@ -1,4 +1,4 @@
-sfrom datetime import datetime
+from datetime import datetime
 
 import spotipy
 from base.client import BaseAPI
@@ -12,7 +12,6 @@ apiurls = ApiURLS()
 
 class SpotifyAPI(BaseAPI):
     def __init__(self):
-        self.HEADERS["Authorization"] = apikeys.SPOTIFY
         scope = "playlist-modify-public"
         self.user = "21dx3vvgs2hunjbzvezp4dp5q"
         self.api = spotipy.Spotify(

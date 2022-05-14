@@ -1,5 +1,6 @@
-from base.client import MusicbrainzAPI, SetlistAPI, SpotifyAPI
 from base.formatting import format_string
+from setlist_fm.client import MusicbrainzAPI, SetlistAPI
+from spotify.client import SpotifyAPI
 
 setlist_api = SetlistAPI()
 musicbrainz_api = MusicbrainzAPI()
