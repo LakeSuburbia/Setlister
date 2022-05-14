@@ -47,9 +47,11 @@ class SpotifyAPI(BaseAPI):
                 new_track = None
                 for track in tracks:
                     for art in track["artists"]:
-                        if compare_strings(art["name"], artist):
+                        if art["name"] == artist:
                             new_track = track["id"]
                             break
+                        if compare_strings(art["name"], artist):
+                            new_track = track["id"]
                     if new_track:
                         uris.append(new_track)
                         break
