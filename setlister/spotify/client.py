@@ -1,56 +1,24 @@
-import time
 from datetime import datetime
 
-import requests
 import spotipy
-from requests.structures import CaseInsensitiveDict
+from base.client import BaseAPI
+from base.formatting import compare_strings
+from setlister.settings import ApiKeys, ApiURLS
 from spotipy.oauth2 import SpotifyOAuth
-
-from .formatting import compare_strings
-from .settings import ApiKeys, ApiURLS
 
 apikeys = ApiKeys()
 apiurls = ApiURLS()
 
 
-class BaseAPI:
-    HEADERS = CaseInsensitiveDict()
-
-    def __init__(self):
-        self.HEADERS["Accept"] = "application/json"
-        self.HEADERS["Content-Type"] = "application/json"
-
-    def get(self, *args, **kwargs):
-        return requests.get(*args, **kwargs).json()
-
-    def post(self, *args, **kwargs):
-        return requests.post(*args, **kwargs).json()
-
-
-class SetlistAPI(BaseAPI):
-    def __init__(self):
-        super(SetlistAPI, self).__init__()
-        self.HEADERS["x-api-key"] = apikeys.SETLIST_FM
-
-    def get(self, path, *args, **kwargs):
-        url = apiurls.SETLIST_FM
-        if path[0] != "/":
-            url += "/"
-        url += path
-        time.sleep(0.5)
-        return super().get(url, headers=self.HEADERS, *args, **kwargs)
-
-
 class SpotifyAPI(BaseAPI):
     def __init__(self):
-        self.HEADERS["Authorization"] = apikeys.SPOTIFY
         scope = "playlist-modify-public"
         self.user = "21dx3vvgs2hunjbzvezp4dp5q"
         self.api = spotipy.Spotify(
             auth_manager=SpotifyOAuth(
                 client_id=apikeys.SPOTIFY_CLIENT_ID,
                 client_secret=apikeys.SPOTIFY_CLIENT_SECRET,
-                redirect_uri="http://localhost",
+                redirect_uri="http://localhost:9090",
                 scope=scope,
             )
         )
@@ -78,9 +46,11 @@ class SpotifyAPI(BaseAPI):
                 new_track = None
                 for track in tracks:
                     for art in track["artists"]:
-                        if compare_strings(art["name"], artist):
+                        if art["name"] == artist:
                             new_track = track["id"]
                             break
+                        if compare_strings(art["name"], artist):
+                            new_track = track["id"]
                     if new_track:
                         uris.append(new_track)
                         break
@@ -91,16 +61,3 @@ class SpotifyAPI(BaseAPI):
             except IndexError:
                 print("failed")
         return uris
-
-
-class MusicbrainzAPI(BaseAPI):
-    def __init__(self):
-        super(MusicbrainzAPI, self).__init__()
-        self.HEADERS["User-Agent"] = apikeys.MUSICBRAINZ
-
-    def get(self, path, *args, **kwargs):
-        url = apiurls.MUSICBRAINZ
-        if path[0] != "/":
-            url += "/"
-        url += path
-        return super().get(url, headers=self.HEADERS, *args, **kwargs)
