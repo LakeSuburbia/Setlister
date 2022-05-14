@@ -18,7 +18,7 @@ class SpotifyAPI(BaseAPI):
             auth_manager=SpotifyOAuth(
                 client_id=apikeys.SPOTIFY_CLIENT_ID,
                 client_secret=apikeys.SPOTIFY_CLIENT_SECRET,
-                redirect_uri="http://localhost",
+                redirect_uri="http://localhost:9090",
                 scope=scope,
             )
         )
