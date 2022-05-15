@@ -23,7 +23,7 @@ class SpotifyAPI(BaseAPI):
             )
         )
 
-    def create_playlist(self, artist: str, songs: list[str]):
+    def create_playlist(self, artist, songs):
         playlist = self.api.user_playlist_create(
             user=self.user,
             name=f"{artist} - setlist {datetime.now().year}",
