@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import List
 
 import spotipy
 from base.client import BaseAPI
@@ -35,7 +36,7 @@ class SpotifyAPI(BaseAPI):
             user=self.user, playlist_id=playlist, tracks=song_uris
         )
 
-    def _get_songs(self, artist: str, songs: list[str]):
+    def _get_songs(self, artist: str, songs: List[str]):
         uris = []
         for song in songs:
             print(f"trying to find {song}")

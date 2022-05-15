@@ -1,3 +1,5 @@
+from typing import Dict
+
 from base.formatting import format_string
 from setlist_fm.client import MusicbrainzAPI, SetlistAPI
 from spotify.client import SpotifyAPI
@@ -34,7 +36,7 @@ print("---------------------------")
 print()
 print()
 max_length = 0
-songs_dict: dict[str, Song] = {}
+songs_dict: Dict[str, Song] = {}
 for setlist in result["setlist"]:
     if len(setlist["sets"]["set"]):
         setlist_length = len(setlist["sets"]["set"][0]["song"])
@@ -53,7 +55,7 @@ for setlist in result["setlist"]:
                 songs_dict[song_name] = current_song
 
 length = int((max_length + 25) / 2)
-selected_songs: dict[str, Song] = dict(
+selected_songs: Dict[str, Song] = dict(
     sorted(songs_dict.items(), key=lambda x: x[1].count)[:length],
 )
 print(artist)
