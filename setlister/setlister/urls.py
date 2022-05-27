@@ -15,7 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from setlist_fm import views as setlist_views
+from spotify import views as spotify_views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
+    path("", setlist_views.index),
+    path("setlist_fm", setlist_views.index),
+    path("spotify", spotify_views.index),
 ]
