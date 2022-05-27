@@ -40,8 +40,8 @@ songs_dict: Dict[str, Song] = {}
 for setlist in result["setlist"]:
     if len(setlist["sets"]["set"]):
         setlist_length = len(setlist["sets"]["set"][0]["song"])
-        max_length = max(max_length, setlist_length)
-        if setlist_length > 10:
+        if setlist_length > 4:
+            max_length = max(max_length, setlist_length)
             for i, song in enumerate(setlist["sets"]["set"][0]["song"]):
                 if song["name"] == "":
                     continue
@@ -61,19 +61,21 @@ selected_songs: Dict[str, Song] = dict(
 print(artist)
 print("---------------------------")
 print()
-sorted_songs = dict(
-    sorted(selected_songs.items(), key=lambda x: x[1].calculate_position())
-)
-for key, value in sorted_songs.items():
-    print(key, value.final_position)
-print()
-print("This playlist:", length)
-print()
-print("---------------------------")
-print()
-print("Creating the playlist")
-print()
-songs = list(sorted_songs.keys())
-spotify_api.create_playlist(artist=artist, songs=songs)
+if len(selected_songs) == 0:
+    print("No songs were found")
+else:
+    sorted_songs = dict(
+        sorted(selected_songs.items(), key=lambda x: x[1].calculate_position())
+    )
+    for key, value in sorted_songs.items():
+        print(key, value.final_position)
+    print()
+    print("This playlist:", length)
+    print()
+    print("---------------------------")
+    print("Creating the playlist")
+    print()
+    songs = list(sorted_songs.keys())
+    spotify_api.create_playlist(artist=artist, songs=songs)
 print()
 print("FINISHED")
