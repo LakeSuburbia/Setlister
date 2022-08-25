@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from base import views as base_views
 from django.contrib import admin
 from django.urls import path
 from setlist_fm import views as setlist_views
@@ -21,6 +22,7 @@ from spotify import views as spotify_views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", setlist_views.index),
+    path("artist/", base_views.artist_view),
     path("setlist_fm", setlist_views.index),
     path("spotify", spotify_views.index),
 ]

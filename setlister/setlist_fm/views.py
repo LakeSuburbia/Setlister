@@ -1,7 +1,6 @@
-from django.http import HttpResponse
-from django.shortcuts import render
+import base.views as base_views
 
 
 # Create your views here.
 def index(request):
-    return HttpResponse("Hello World")
+    return base_views.index(request)
