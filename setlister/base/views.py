@@ -69,10 +69,12 @@ def artist_view(request):
                 artist.setlist = setlist_obj
                 artist.save()
             print(artist.setlist)
+            songs = artist.setlist.get_songs()
+            spotify_api.create_playlist(artist=artist.name, songs=songs)
             return render(
                 request,
                 "artist.html",
-                {"songs": list(sorted_songs.items()), "artist": artist.name, "MBID": artist.MBID},
+                {"songs": songs, "artist": artist.name, "MBID": artist.MBID},
             )
     # if a GET (or any other method) we'll create a blank form
     else:

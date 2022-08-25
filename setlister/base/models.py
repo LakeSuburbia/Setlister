@@ -61,6 +61,8 @@ class SetlistCache(models.Model):
     objects = SetlistCacheManager()
     time_created = models.DateTimeField(default=timezone.now)
 
+    def get_songs(self) -> dict[str, Song]:
+        return Song.objects.filter(setlist=self).values_list("name", flat=True)
 
 class Artist(models.Model):
     name = models.CharField(max_length=100)
